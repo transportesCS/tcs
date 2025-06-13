@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🚚 Agenda Transportes Camilo de Sousa 🚚</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #2980b9;
+      color: white;
+      text-align: center;
+      padding: 40px;
+      margin-bottom: 40px;
+      border-bottom: 4px solid #1abc9c;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    form {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-top: 5px solid #1abc9c;
+    }
+
+    label {
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease-in-out;
+      padding: 15px;
+    }
+
+    button:hover {
+      background-color: #3498db;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 14px;
+      text-align: center;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+    }
+
+    th {
+      background-color: #2980b9;
+      color: white;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background-color: #ecf0f1;
+    }
+
+    tr:hover {
+      background-color: #f1c40f;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: none;
+      color: white;
+      font-size: 14px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .edit-btn {
+      background-color: #f39c12;
+    }
+
+    .edit-btn:hover {
+      background-color: #e67e22;
+    }
+
+    .delete-btn {
+      background-color: #c0392b;
+    }
+
+    .delete-btn:hover {
+      background-color: #e74c3c;
+    }
+
+    #login-container, #register-container {
+      max-width: 400px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-top: 5px solid #1abc9c;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      form, #login-container, #register-container {
+        width: 100%;
+        margin: 20px auto;
+      }
+
+      table {
+        font-size: 14px;
+      }
+    }
+
+    .link-button {
+      background: none;
+      border: none;
+      color: #2980b9;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 1rem;
+      padding: 0;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🚚 Agenda Transportes Camilo de Sousa 🚚</h1>
+</header>
+
+<!-- Login -->
+<div id="login-container">
+  <h2>Login</h2>
+  <form id="login-form">
+    <label for="login-username">Utilizador:</label>
+    <input type="text" id="login-username" required autocomplete="username" />
+    <label for="login-password">Password:</label>
+    <input type="password" id="login-password" required autocomplete="current-password" />
+    <button type="submit">Entrar</button>
+  </form>
+  <button id="show-register" class="link-button">Criar conta</button>
+</div>
+
+<!-- Registro de Motorista -->
+<div id="register-container" class="hidden">
+  <h2>Registar Conta</h2>
+  <form id="register-form">
+    <label for="register-username">Escolha um Utilizador:</label>
+    <input type="text" id="register-username" required autocomplete="username" />
+    <label for="register-password">Escolha uma Password:</label>
+    <input type="password" id="register-password" required autocomplete="new-password" />
+    <label for="register-password-confirm">Confirmar Password:</label>
+    <input type="password" id="register-password-confirm" required autocomplete="new-password" />
+    <button type="submit">Registar</button>
+  </form>
+  <button id="show-login" class="link-button">Já tenho conta, quero entrar</button>
+</div>
+
+<!-- Agenda -->
+<div id="agenda-section" class="hidden">
+  <form id="agenda-form">
+    <input type="hidden" id="editIndex" />
+    <label for="data">Data:</label>
+    <input type="date" id="data" required />
+
+    <label for="hora">Hora:</label>
+    <select id="hora" required>
+      <option value="">--Selecionar Hora--</option>
+      <option value="07:00">07:00</option>
+      <option value="08:00">08:00</option>
+      <option value="09:00">09:00</option>
+      <option value="10:00">10:00</option>
+      <option value="11:00">11:00</option>
+      <option value="12:00">12:00</option>
+      <option value="13:00">13:00</option>
+      <option value="14:00">14:00</option>
+      <option value="15:00">15:00</option>
+      <option value="16:00">16:00</option>
+      <option value="17:00">17:00</option>
+      <option value="18:00">18:00</option>
+      <option value="19:00">19:00</option>
+    </select>
+
+    <label for="cliente">Nome do Cliente:</label>
+    <input type="text" id="cliente" required />
+
+    <label for="telefone">Número de Telemóvel:</label>
+    <input type="text" id="telefone" required />
+
+    <label for="tipoCarga">Tipo de Carga:</label>
+    <input type="text" id="tipoCarga" required />
+
+    <label for="moradaRecolha">Morada de Recolha:</label>
+    <textarea id="moradaRecolha" rows="2" required></textarea>
+
+    <label for="moradaEntrega">Morada de Entrega:</label>
+    <textarea id="moradaEntrega" rows="2" required></textarea>
+
+    <label for="viatura">Viatura:</label>
+    <select id="viatura" required>
+      <option value="">--Selecionar--</option>
+      <option value="N10 com grua">N10 com grua</option>
+      <option value="Renault">Renault</option>
+    </select>
+
+    <button type="submit">Guardar Marcação</button>
+    <button type="button" id="logout-btn" style="background:#c0392b; margin-top: 10px;">Logout</button>
+  </form>
+
+  <table id="agenda-tabela">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Hora</th>
+        <th>Cliente</th>
+        <th>Telefone</th>
+        <th>Tipo de Carga</th>
+        <th>Morada de Recolha</th>
+        <th>Morada de Entrega</th>
+        <th>Viatura</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- marcações via JS -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Carregar usuários do localStorage ou criar padrão com admin fixo
+  let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [
+    { username: "admin", password: "1234", role: "admin" }
+  ];
+
+  let marcacoes = JSON.parse(localStorage.getItem('marcacoes')) || [];
+
+  let currentUser = null;
+
+  // Elementos DOM
+  const loginContainer = document.getElementById('login-container');
+  const registerContainer = document.getElementById('register-container');
+  const agendaSection = document.getElementById('agenda-section');
+  const loginForm = document.getElementById('login-form');
+  const registerForm = document.getElementById('register-form');
+  const agendaForm = document.getElementById('agenda-form');
+  const tabela = document.getElementById('agenda-tabela').querySelector('tbody');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  const showRegisterBtn = document.getElementById('show-register');
+  const showLoginBtn = document.getElementById('show-login');
+
+  // Mostrar tela de registro
+  showRegisterBtn.addEventListener('click', () => {
+    loginContainer.classList.add('hidden');
+    registerContainer.classList.remove('hidden');
+  });
+
+  // Mostrar tela de login
+  showLoginBtn.addEventListener('click', () => {
+    registerContainer.classList.add('hidden');
+    loginContainer.classList.remove('hidden');
+  });
+
+  // Registrar novo motorista
+  registerForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const username = document.getElementById('register-username').value.trim();
+    const password = document.getElementById('register-password').value.trim();
+    const passwordConfirm = document.getElementById('register-password-confirm').value.trim();
+
+    if (password !== passwordConfirm) {
+      alert('As passwords não coincidem.');
+      return;
+    }
+
+    if (usuarios.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+      alert('Esse utilizador já existe.');
+      return;
+    }
+
+    usuarios.push({ username, password, role: 'motorista' });
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+    alert('Conta criada com sucesso! Agora pode fazer login.');
+    registerForm.reset();
+    registerContainer.classList.add('hidden');
+    loginContainer.classList.remove('hidden');
+  });
+
+  // Login
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+
+    const foundUser = usuarios.find(u => u.username === username && u.password === password);
+
+    if (!foundUser) {
+      alert("Utilizador ou password inválidos.");
+      return;
+    }
+
+    currentUser = foundUser;
+    loginContainer.classList.add('hidden');
+    registerContainer.classList.add('hidden');
+    agendaSection.classList.remove('hidden');
+    renderTabela();
+    agendaForm.reset();
+    alert(`Bem-vindo, ${currentUser.username} (${currentUser.role})!`);
+  });
+
+  // Logout
+  logoutBtn.addEventListener('click', () => {
+    currentUser = null;
+    agendaSection.classList.add('hidden');
+    loginContainer.classList.remove('hidden');
+    agendaForm.reset();
+  });
+
+  // Renderizar tabela
+  function renderTabela() {
+    tabela.innerHTML = '';
+    marcacoes.forEach((m, index) => {
+      // Se for motorista, só mostra as marcações do próprio motorista
+      if (currentUser.role === 'motorista' && m.motorista !== currentUser.username) return;
+
+      tabela.innerHTML += `
+        <tr>
+          <td>${m.data}</td>
+          <td>${m.hora}</td>
+          <td>${m.cliente}</td>
+          <td>${m.telefone}</td>
+          <td>${m.tipoCarga}</td>
+          <td>${m.moradaRecolha}</td>
+          <td>${m.moradaEntrega}</td>
+          <td>${m.viatura}</td>
+          <td>
+            ${
+              (currentUser.role === 'admin' || (currentUser.role === 'motorista' && m.motorista === currentUser.username))
+              ? `<button class="btn edit-btn" onclick="editarMarcacao(${index})">✏️</button>
+                 <button class="btn delete-btn" onclick="apagarMarcacao(${index})">🗑️</button>`
+              : ''
+            }
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  // Guardar marcação
+  agendaForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const novaMarcacao = {
+      data: document.getElementById('data').value,
+      hora: document.getElementById('hora').value,
+      cliente: document.getElementById('cliente').value,
+      telefone: document.getElementById('telefone').value,
+      tipoCarga: document.getElementById('tipoCarga').value,
+      moradaRecolha: document.getElementById('moradaRecolha').value,
+      moradaEntrega: document.getElementById('moradaEntrega').value,
+      viatura: document.getElementById('viatura').value,
+      motorista: currentUser.username
+    };
+
+    // Evitar marcações duplicadas (mesma data, hora, viatura)
+    for (let i = 0; i < marcacoes.length; i++) {
+      if (
+        marcacoes[i].data === novaMarcacao.data &&
+        marcacoes[i].hora === novaMarcacao.hora &&
+        marcacoes[i].viatura === novaMarcacao.viatura
+      ) {
+        // Se estiver editando e for mesma marcação, ok
+        if (document.getElementById('editIndex').value == i) continue;
+        alert("Já existe uma marcação para esta data, hora e viatura.");
+        return;
+      }
+    }
+
+    const editIndex = document.getElementById('editIndex').value;
+    if (editIndex === "") {
+      marcacoes.push(novaMarcacao);
+    } else {
+      marcacoes[editIndex] = novaMarcacao;
+    }
+
+    localStorage.setItem('marcacoes', JSON.stringify(marcacoes));
+    agendaForm.reset();
+    document.getElementById('editIndex').value = '';
+    renderTabela();
+  });
+
+  // Editar marcação
+  window.editarMarcacao = function(index) {
+    const m = marcacoes[index];
+    if (currentUser.role === 'motorista' && m.motorista !== currentUser.username) {
+      alert("Não pode editar marcações de outros motoristas.");
+      return;
+    }
+
+    document.getElementById('editIndex').value = index;
+    document.getElementById('data').value = m.data;
+    document.getElementById('hora').value = m.hora;
+    document.getElementById('cliente').value = m.cliente;
+    document.getElementById('telefone').value = m.telefone;
+    document.getElementById('tipoCarga').value = m.tipoCarga;
+    document.getElementById('moradaRecolha').value = m.moradaRecolha;
+    document.getElementById('moradaEntrega').value = m.moradaEntrega;
+    document.getElementById('viatura').value = m.viatura;
+  };
+
+  // Apagar marcação
+  window.apagarMarcacao = function(index) {
+    const m = marcacoes[index];
+    if (currentUser.role === 'motorista' && m.motorista !== currentUser.username) {
+      alert("Não pode apagar marcações de outros motoristas.");
+      return;
+    }
+
+    if (confirm("Tem certeza que deseja apagar esta marcação?")) {
+      marcacoes.splice(index, 1);
+      localStorage.setItem('marcacoes', JSON.stringify(marcacoes));
+      renderTabela();
+    }
+  };
+</script>
+
+</body>
+</html>
